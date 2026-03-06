@@ -31,7 +31,9 @@ function Navbar() {
         <Link to="/my-rentals" className="hover:text-indigo-400">
           My Rentals
         </Link>
-
+        <Link to="/list-item">
+List an Item
+</Link>
         {user ? (
           <>
             <span className="text-gray-300">

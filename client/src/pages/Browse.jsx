@@ -1,47 +1,46 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-function Browse() {
+function Browse(){
 
-  const [products, setProducts] = useState([]);
+  const [products,setProducts] = useState([]);
 
-  useEffect(() => {
+  useEffect(()=>{
 
     axios
       .get("http://localhost:8000/api/products")
-      .then((res) => {
-        console.log("Products:", res.data);
+      .then(res=>{
         setProducts(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch(err=>{
+        console.log(err);
+      });
 
-  }, []);
+  },[]);
 
-  return (
-    <div className="p-10 text-white">
+  return(
 
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="min-h-screen bg-slate-950 text-white p-10">
+
+      <h1 className="text-4xl font-bold mb-10">
         Browse Rentals
       </h1>
 
-      {products.length === 0 ? (
-        <p>No products found</p>
-      ) : (
-        <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-8">
 
-          {products.map((product) => (
+        {products.map(product=>(
+          
+          <Link key={product._id} to={`/product/${product._id}`}>
 
-            <div
-              key={product._id}
-              className="bg-slate-900 p-6 rounded-xl"
-            >
+            <div className="bg-slate-900 rounded-xl p-4 hover:scale-105 transition">
+
               <img
                 src={product.image}
-                alt={product.name}
-                className="h-40 w-full object-cover rounded-lg mb-4"
+                className="h-48 w-full object-cover rounded-lg mb-4"
               />
 
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-bold">
                 {product.name}
               </h2>
 
@@ -50,17 +49,19 @@ function Browse() {
               </p>
 
               <p className="text-gray-400">
-                Deposit: ₹{product.deposit}
+                Deposit ₹{product.deposit}
               </p>
 
             </div>
 
-          ))}
+          </Link>
 
-        </div>
-      )}
+        ))}
+
+      </div>
 
     </div>
+
   );
 }
 

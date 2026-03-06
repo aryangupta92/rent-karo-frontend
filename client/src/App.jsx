@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyRentals from "./pages/MyRentals";
 import Admin from "./pages/Admin";
-
+import ListItem from "./pages/ListItem";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/my-rentals" element={<MyRentals />} />
         <Route path="/admin" element={<Admin/>}/>
+        <Route path="/list-item" element={<ListItem />} />
       </Routes>
     </>
   );
