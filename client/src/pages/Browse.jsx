@@ -56,7 +56,7 @@ function Browse() {
 
   useEffect(() => {
     setLoading(true);
-    let url = "http://localhost:8000/api/products";
+    let url = "/api/products";
     if (loc.active && loc.lat && loc.lng) {
       url += `?lat=${loc.lat}&lng=${loc.lng}&radius=5`; // 5KM strict radius
     }
