@@ -7,6 +7,7 @@ import {
   Users, MapPin, BadgeCheck, TrendingUp, Clock, RotateCcw, Star
 } from "lucide-react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import SectionHeader from "../components/SectionHeader";
 
 /* ── Skeleton Card ── */
 function SkeletonCard() {
@@ -194,15 +195,12 @@ function Home() {
       <section className="py-28 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <p data-reveal className="reveal text-indigo-400 text-xs font-bold tracking-widest uppercase mb-3">
-              Simple Process
-            </p>
-            <h2 data-reveal data-delay="100" className="reveal text-4xl md:text-5xl font-black mb-4">
-              How <span className="gradient-text">rentKaro</span> Works
-            </h2>
-            <p data-reveal data-delay="200" className="reveal text-slate-400 max-w-md mx-auto text-base">
-              From browsing to returning — seamless at every step.
-            </p>
+            <SectionHeader
+              eyebrow="Simple Process"
+              title={<>How <span className="gradient-text">rentKaro</span> Works</>}
+              description="From browsing to returning — seamless at every step."
+              centered
+            />
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 relative">

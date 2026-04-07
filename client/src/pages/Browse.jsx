@@ -3,6 +3,7 @@ import api from "../services/api";
 import { Link } from "react-router-dom";
 import { Search, SlidersHorizontal, Package, X, ArrowRight, MapPin, Loader2 } from "lucide-react";
 import { useScrollReveal } from "../hooks/useScrollReveal";
+import SectionHeader from "../components/SectionHeader";
 
 const CATEGORIES = ["All", "Tech", "Furniture", "Tools", "Gaming", "Kitchen"];
 
@@ -81,11 +82,12 @@ function Browse() {
         {/* Hero Header */}
         <div className="mb-12 animate-fade-in relative">
           <div className="absolute -top-20 -left-10 w-72 h-72 bg-indigo-600/5 blur-[80px] rounded-full pointer-events-none" />
-          <p className="text-indigo-400 text-sm font-semibold tracking-widest uppercase mb-3">Marketplace</p>
-          <h1 className="text-5xl md:text-6xl font-black mb-3">
-            Browse <span className="gradient-text">Rentals</span>
-          </h1>
-          <p className="text-slate-400 text-lg">Find exactly what you need, on your terms.</p>
+          <SectionHeader
+            eyebrow="Marketplace"
+            title={<>Browse <span className="gradient-text">Rentals</span></>}
+            description="Find exactly what you need, on your terms."
+            centered={false}
+          />
         </div>
 
         {/* Search + Filters */}
