@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 function Inbox() {
   const [conversations, setConversations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [chatRental, setChatRental] = useState(null);
-  const navigate = useNavigate();
-
+  const [loading,       setLoading]       = useState(true);
+  const [chatRental,    setChatRental]    = useState(null);
+  const navigate    = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -17,24 +16,22 @@ function Inbox() {
       try {
         const res = await api.get("/api/rentals/inbox");
         setConversations(res.data);
-      } catch (err) {
-        console.error("Failed to load inbox", err);
-      } finally {
-        setLoading(false);
-      }
+      } catch (err) { console.error("Failed to load inbox", err); }
+      finally      { setLoading(false); }
     };
     fetchInbox();
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pt-28 pb-16 px-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen pt-28 pb-16 px-6" style={{ background: "#080808", color: "#f0f0f0" }}>
+      <div className="max-w-3xl mx-auto">
+
         <div className="flex items-center justify-between mb-8 animate-fade-in">
           <div>
-            <h1 className="text-4xl font-extrabold mb-1">
+            <h1 className="text-3xl font-extrabold mb-1">
               Your <span className="gradient-text">Inbox</span>
             </h1>
-            <p className="text-gray-400 text-sm">
+            <p className="text-sm" style={{ color: "#737373" }}>
               Coordinate pickups and drop-offs with your renters and owners.
             </p>
           </div>
@@ -42,59 +39,75 @@ function Inbox() {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <Loader2 className="animate-spin text-indigo-500" size={40} />
+            <Loader2 className="animate-spin" size={36} style={{ color: "#f59e0b" }} />
           </div>
         ) : conversations.length === 0 ? (
-          <div className="text-center py-24 animate-fade-in bg-slate-900/50 rounded-2xl border border-slate-800">
-            <MessageSquare size={64} className="text-slate-700 mx-auto mb-5" />
-            <h3 className="text-2xl font-semibold text-gray-400 mb-2">No active conversations</h3>
-            <p className="text-gray-600 mb-8">Chats will appear here when your rentals are confirmed.</p>
-            <button
-              onClick={() => navigate("/browse")}
-              className="btn-primary flex items-center gap-2 mx-auto"
-            >
-              Browse Items <ArrowUpRight size={16} />
+          <div
+            className="text-center py-24 animate-fade-in rounded-2xl"
+            style={{ background: "#0f0f0f", border: "1px solid rgba(255,255,255,0.07)" }}
+          >
+            <MessageSquare size={56} className="mx-auto mb-5" style={{ color: "#1a1a1a" }} />
+            <h3 className="text-2xl font-semibold mb-2" style={{ color: "#525252" }}>No active conversations</h3>
+            <p className="mb-8" style={{ color: "#404040" }}>Chats will appear here when your rentals are confirmed.</p>
+            <button onClick={() => navigate("/browse")} className="btn-primary flex items-center gap-2 mx-auto">
+              Browse Items <ArrowUpRight size={15} />
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {conversations.map((rental) => {
-              const isOwner = rental.owner._id === currentUser._id;
+              const isOwner   = rental.owner._id === currentUser._id;
               const otherUser = isOwner ? rental.user : rental.owner;
-
               return (
                 <div
                   key={rental._id}
                   onClick={() => setChatRental(rental)}
-                  className="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 flex items-center justify-between cursor-pointer transition-all duration-200 group animate-fade-in"
+                  className="rounded-2xl p-5 flex items-center justify-between cursor-pointer transition-all duration-200 group animate-fade-in"
+                  style={{ background: "#0f0f0f", border: "1px solid rgba(255,255,255,0.07)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(245,158,11,0.2)";
+                    e.currentTarget.style.background = "#111111";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+                    e.currentTarget.style.background = "#0f0f0f";
+                  }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700">
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden"
+                      style={{ background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.08)" }}
+                    >
                       {otherUser.avatar ? (
                         <img src={otherUser.avatar} alt="Avatar" className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-lg font-bold text-gray-400">
+                        <span className="text-base font-bold" style={{ color: "#525252" }}>
                           {otherUser.name.charAt(0).toUpperCase()}
                         </span>
                       )}
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg group-hover:text-indigo-400 transition-colors">
+                      <h3 className="font-bold transition-colors duration-200" style={{ color: "#f0f0f0" }}>
                         {otherUser.name}
                       </h3>
-                      <p className="text-sm text-gray-500 flex items-center gap-2">
-                        <span className="text-indigo-400/80 font-medium">
+                      <p className="text-sm flex items-center gap-2 mt-0.5" style={{ color: "#525252" }}>
+                        <span style={{ color: "#f59e0b", fontWeight: 500 }}>
                           {isOwner ? "Renting your" : "Owner of"}
                         </span>
                         {rental.productName}
                       </p>
                     </div>
                   </div>
-                  <div>
-                    <button className="bg-slate-800 text-indigo-400 px-4 py-2 rounded-xl text-sm font-semibold group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                      Chat
-                    </button>
-                  </div>
+                  <button
+                    className="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
+                    style={{
+                      background: "rgba(245,158,11,0.08)",
+                      border: "1px solid rgba(245,158,11,0.18)",
+                      color: "#fbbf24",
+                    }}
+                  >
+                    Chat
+                  </button>
                 </div>
               );
             })}
